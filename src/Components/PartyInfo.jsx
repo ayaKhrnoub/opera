@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import useFetch from "../Hooks/useFetch";
-import Loading from "../Pages/Loading";
 
 const Item = ({ title, text }) => {
   return (

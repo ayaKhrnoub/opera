@@ -14,11 +14,8 @@ const PayTickets = ({ userBooked, setShowModal, ticketPrice }) => {
   const [Otp, setOtp] = useState("");
   const { eventId } = useParams();
   const { token } = useAuthContext();
-  const [isError, setIsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const addParties = () => {
-    setIsLoading(true);
     // await axios.post(
     //   `${baseURL}/api/party/book-place`,
     //   {

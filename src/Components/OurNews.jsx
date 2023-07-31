@@ -1,5 +1,5 @@
 import Title from "./Title";
-import { images } from "../constant";
+import { images } from "../Constant";
 import WhatIsUp from "./WhatIsUp";
 
 const OurNews = () => {

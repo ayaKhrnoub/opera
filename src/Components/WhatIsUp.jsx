@@ -1,4 +1,4 @@
-import { images } from "../constant";
+import { images } from "../Constant";
 
 const WhatIsUp = () => {
   return (

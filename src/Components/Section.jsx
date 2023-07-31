@@ -1,6 +1,6 @@
 import Button from "./Button";
 import PropTypes from "prop-types";
-import { images } from "../constant";
+import { images } from "../Constant";
 
 const Section = ({ button, dirLtr, image, title, text }) => {
   return (
