@@ -12,7 +12,7 @@ const RequiredAuth = () => {
         <h2 className="font-bold w-[60%] mx-auto text-4xl">Oops!</h2>
       </div>
       <p className="w-[90%] mt-2 text-3xl text-start mx-auto">
-        Looks like you need to be logged in to book.
+        Looks like you need to be logged in to continue.
       </p>
       <p className="w-[90%] mt-2 text-3xl text-start mx-auto">
         Don{"'"}t worry, registering is quick and easy!

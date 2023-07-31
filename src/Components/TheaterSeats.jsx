@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useAuthContext } from "../Context/AuthContext";
 import Popup from "./Popup";
 import PayTickets from "./PayTickets";
+import RequiredAuth from "./RequiredAuth";
 
 // A utility function that splits an array into smaller arrays of specified lengths
 function splitArray(array, lengths) {
@@ -32,6 +33,7 @@ const TheaterSeats = ({ userSeats, isLoggedIn }) => {
 
   const [select, setSelect] = useState([]);
   const [userBooked, setUserBooked] = useState([]);
+  const [requiredAuthModal, setRequiredAuthModal] = useState(false);
   const { data, isLoading, error } = useFetch(`/api/party/show/${eventId}`);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ const TheaterSeats = ({ userSeats, isLoggedIn }) => {
         console.log("خالصة الجلسة");
       }
     } else {
-      console.log("مالو مسجل دخولو");
+      setRequiredAuthModal(true);
     }
   }, [user, isLoggedIn]);
 
@@ -81,14 +83,22 @@ const TheaterSeats = ({ userSeats, isLoggedIn }) => {
               {i.map((j, index) => (
                 <button
                   onClick={() => {
-                    if (j.booked) return;
-                    if (userSeats.length >= user.allowed_tickets) return;
-                    else {
-                      if (select.includes(j.number))
-                        setSelect((prev) => prev.filter((i) => i !== j.number));
+                    if (Object.keys(user).length === 0) {
+                      return;
+                    } else if (!isLoggedIn) {
+                      return;
+                    } else {
+                      if (j.booked) return;
+                      if (userSeats.length >= user.allowed_tickets) return;
                       else {
-                        if (select.length >= user.allowed_tickets) return;
-                        else setSelect((prev) => [...prev, j.number]);
+                        if (select.includes(j.number))
+                          setSelect((prev) =>
+                            prev.filter((i) => i !== j.number)
+                          );
+                        else {
+                          if (select.length >= user.allowed_tickets) return;
+                          else setSelect((prev) => [...prev, j.number]);
+                        }
                       }
                     }
                   }}
@@ -119,6 +129,13 @@ const TheaterSeats = ({ userSeats, isLoggedIn }) => {
           setShowModal={setShowModal}
           ticketPrice={+data?.ticket_price}
         />
+      </Popup>
+      <Popup
+        isOpen={requiredAuthModal}
+        onClose={setRequiredAuthModal}
+        clickOutSide={false}
+      >
+        <RequiredAuth />
       </Popup>
     </Fragment>
   );

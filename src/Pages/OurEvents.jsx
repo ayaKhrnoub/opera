@@ -6,12 +6,12 @@ import ContactUs from "../Containers/ContactUs";
 import useFetch from "../Hooks/useFetch";
 import EventCardLoading from "../Components/EventCardLoading";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import PageHeader from "../Components/PageHeader";
 
 const OurEvents = () => {
   // Define state variables
   const [page, setPage] = useState(1); // page number to fetch data from API
   const { data, isLoading, error } = useFetch(`/api/party/opened?page=${page}`); // fetch data from API using custom hook
-  console.log(data)
   const [partyList, setPartyList] = useState([]); // array to store party data
   const [maxPage, setMaxPage] = useState(1); // maximum number of pages returned by API
   const [itemsPerPage, setItemsPerPage] = useState(8); // number of items per page returned by API
@@ -42,16 +42,7 @@ const OurEvents = () => {
 
   return (
     <React.Fragment>
-      <header className="relative h-screen w-screen">
-        <div className="bg-primary relative h-screen w-screen">
-          <img
-            className="w-full h-full object-cover"
-            src={images.intro1}
-            alt=""
-            loading="lazy"
-          />
-        </div>
-      </header>
+      <PageHeader img={images.intro1} text="Damascus Opera" />
       <main className="w-full mb-8 relative after:top-0 after:left-0 after:z-[-1] after:absolute after:w-full after:h-[75vh] after:bg-[#0C2024]/90 pt-4 ">
         <div className="w-10/12 mx-auto">
           <Title text1="our" text2="event" white={true} />
