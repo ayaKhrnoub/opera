@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import useFetch from "../Hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { useAuthContext } from "../Context/AuthContext";
@@ -24,14 +24,25 @@ function splitArray(array, lengths) {
   return result;
 }
 
-const TheaterSeats = ({ userSeats }) => {
+const TheaterSeats = ({ userSeats, isLoggedIn }) => {
   const { eventId } = useParams();
   const [seats, setSeats] = useState([]);
   const { user } = useAuthContext();
   const [showModal, setShowModal] = useState(false);
+
   const [select, setSelect] = useState([]);
   const [userBooked, setUserBooked] = useState([]);
   const { data, isLoading, error } = useFetch(`/api/party/show/${eventId}`);
+
+  useEffect(() => {
+    if (Object.keys(user).length !== 0) {
+      if (!isLoggedIn) {
+        console.log("خالصة الجلسة");
+      }
+    } else {
+      console.log("مالو مسجل دخولو");
+    }
+  }, [user, isLoggedIn]);
 
   useEffect(() => {
     setSelect(userSeats);
@@ -44,13 +55,12 @@ const TheaterSeats = ({ userSeats }) => {
   useEffect(() => {
     if (!isLoading) {
       if (!error) {
-        setSeats(splitArray(JSON.parse(data.data.seats), [22, 26, 30]));
+        setSeats(splitArray(JSON.parse(data.seats), [22, 26, 30]));
       } else {
         console.log("navigate to 404");
       }
     }
   }, [data, isLoading, error]);
-
   return (
     <Fragment>
       <div className="w-[95%] px-12 overflow-x-auto mx-auto">
@@ -107,7 +117,7 @@ const TheaterSeats = ({ userSeats }) => {
         <PayTickets
           userBooked={userBooked}
           setShowModal={setShowModal}
-          ticketPrice={data?.data?.ticket_price}
+          ticketPrice={+data?.ticket_price}
         />
       </Popup>
     </Fragment>
@@ -117,6 +127,7 @@ const TheaterSeats = ({ userSeats }) => {
 // PropTypes for the TheaterSeats component
 TheaterSeats.propTypes = {
   userSeats: PropTypes.arrayOf(PropTypes.number).isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 export default TheaterSeats;

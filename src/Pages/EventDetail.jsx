@@ -26,11 +26,12 @@ const EventDetail = () => {
   const { pathname } = useLocation();
   const { eventId } = useParams();
   const { data, isLoading, error } = useFetch(`/api/party/show/${eventId}`);
+  console.log(data)
   const [party, setParty] = useState([]);
 
   useEffect(() => {
     if (!isLoading && !error) {
-      setParty(data.data);
+      setParty(data);
     }
   }, [data, isLoading, error]);
 
@@ -62,7 +63,7 @@ const EventDetail = () => {
               </div>
             </div>
             <Item title="Party Name:" text={party.name} />
-            <Item title="Team Name:" text={party.team_name} />
+            <Item title="Team Name:" text={party.orchestra_name} />
             <Item title="Theater Name:" text={party.theater_name} />
             <Item
               title="Number of seats:"

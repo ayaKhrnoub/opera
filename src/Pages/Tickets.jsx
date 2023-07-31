@@ -5,20 +5,32 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 const Tickets = () => {
-  const { data, isLoading, error } = useFetch(`/api/party/my-tickets`);
+  const { data, isLoading, error, errorMessage } = useFetch(
+    `/api/party/my-tickets`
+  );
   const [myTickets, setMyTickets] = useState([]);
   const { eventId } = useParams();
-
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   useEffect(() => {
-    if (!isLoading && !error) {
+    if (!isLoading) {
       // booked_seat_number
-      setMyTickets(
-        data.data
-          .filter((ticket) => +ticket.party_id === +eventId)
-          .map((seat) => +seat.booked_seat_number)
-      );
+      if (!error) {
+        if (data?.data) {
+          setMyTickets(
+            data.data
+              .filter((ticket) => +ticket.party_id === +eventId)
+              .map((seat) => +seat.booked_seat_number)
+          );
+        }
+      } else {
+        if (typeof errorMessage !== "string") {
+          if (errorMessage?.response?.data?.message === "Unauthenticated.") {
+            setIsLoggedIn(false);
+          }
+        }
+      }
     }
-  }, [data, isLoading, error, eventId]);
+  }, [data, isLoading, error, eventId, errorMessage]);
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, []);
@@ -56,7 +68,9 @@ const Tickets = () => {
           </div>
         </div>
       </div>
-      {isLoading ? null : <TheaterSeats userSeats={myTickets} />}
+      {isLoading ? null : (
+        <TheaterSeats userSeats={myTickets} isLoggedIn={isLoggedIn} />
+      )}
     </div>
   );
 };

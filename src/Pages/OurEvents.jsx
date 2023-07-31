@@ -11,6 +11,7 @@ const OurEvents = () => {
   // Define state variables
   const [page, setPage] = useState(1); // page number to fetch data from API
   const { data, isLoading, error } = useFetch(`/api/party/opened?page=${page}`); // fetch data from API using custom hook
+  console.log(data)
   const [partyList, setPartyList] = useState([]); // array to store party data
   const [maxPage, setMaxPage] = useState(1); // maximum number of pages returned by API
   const [itemsPerPage, setItemsPerPage] = useState(8); // number of items per page returned by API

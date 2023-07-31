@@ -4,10 +4,56 @@ import Square from "./Square";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import OTPInput from "./OTPInput";
+import { useAuthContext } from "../Context/AuthContext";
+import axios from "axios";
+import baseURL from "../Constant/URL";
+import { useParams } from "react-router-dom";
 
 const PayTickets = ({ userBooked, setShowModal, ticketPrice }) => {
   const [modalContent, setModalContent] = useState(0);
   const [Otp, setOtp] = useState("");
+  const { eventId } = useParams();
+  const { token } = useAuthContext();
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const addParties = () => {
+    setIsLoading(true);
+    // await axios.post(
+    //   `${baseURL}/api/party/book-place`,
+    //   {
+    //     number: userBooked[0],
+    //     party_id: eventId,
+    //   },
+    //   {
+    //     headers: { Authorization: `Bearer ${token}` },
+    //   }
+    // );
+    const requests = userBooked.map((id) =>
+      axios.post(
+        `${baseURL}/api/party/book-place`,
+        {
+          number: id,
+          party_id: eventId,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+    );
+
+    Promise.all(requests)
+      .then((responses) => {
+        // معالجة البيانات المستردة
+        responses.forEach((response) => {
+          console.log(response.data);
+        });
+      })
+      .catch((error) => {
+        // معالجة الأخطاء
+        console.error(error);
+      });
+  };
 
   useEffect(() => {
     setModalContent(0);
@@ -75,7 +121,10 @@ const PayTickets = ({ userBooked, setShowModal, ticketPrice }) => {
         <OTPInput otp={Otp} setOtp={setOtp} valueLength={4} />
       </div>
       <div className="flex justify-center items-center py-4">
-        <button className="capitalize flex justify-center hover:bg-primary/80 duration-300 bg-primary rounded-lg text-2xl font-bold text-white items-center w-24 h-12 ">
+        <button
+          onClick={addParties}
+          className="capitalize flex justify-center hover:bg-primary/80 duration-300 bg-primary rounded-lg text-2xl font-bold text-white items-center w-24 h-12 "
+        >
           sent
         </button>
       </div>

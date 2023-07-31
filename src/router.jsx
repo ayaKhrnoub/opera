@@ -27,6 +27,9 @@ const ForgetPassword = lazy(() => import("./Pages/ForgetPassword"));
 const Register = lazy(() => import("./Pages/Register"));
 const LoginVerify = lazy(() => import("./Pages/LoginVerify"));
 const ResetPassword = lazy(() => import("./Pages/ResetPassword"));
+const MyParty = lazy(() => import("./Pages/MyParty"));
+const TicketInformation = lazy(() => import("./Pages/TicketInformation"));
+const MyReservation = lazy(() => import("./Pages/MyReservation"));
 
 const App = createBrowserRouter(
   createRoutesFromElements(
@@ -53,6 +56,30 @@ const App = createBrowserRouter(
           element={
             <Suspense fallback={<Loading />}>
               <News />
+            </Suspense>
+          }
+        />
+        <Route
+          path="my-reservation"
+          element={
+            <Suspense fallback={<Loading />}>
+              <MyReservation />
+            </Suspense>
+          }
+        />
+        <Route
+          path="my-tickets"
+          element={
+            <Suspense fallback={<Loading />}>
+              <MyParty />
+            </Suspense>
+          }
+        />
+        <Route
+          path="my-tickets/:id"
+          element={
+            <Suspense fallback={<Loading />}>
+              <TicketInformation />
             </Suspense>
           }
         />

@@ -9,6 +9,7 @@ const useFetch = (url) => {
     data: [],
     isLoading: true,
     error: false,
+    errorMessage: "",
   });
   const cancelTokenSource = axios.CancelToken.source();
   const fetchData = useCallback(async () => {
@@ -23,6 +24,7 @@ const useFetch = (url) => {
           data: data.results ? data.results : data,
           isLoading: false,
           error: false,
+          errorMessage: "",
         });
       }
     } catch (e) {
@@ -30,21 +32,23 @@ const useFetch = (url) => {
         data: [],
         isLoading: false,
         error: true,
+        errorMessage: e,
       });
     }
   }, [url]);
-  
+
   useEffect(() => {
     setFetchedData({
       data: [],
       isLoading: true,
       error: false,
+      errorMessage: "",
     });
     fetchData();
     return () => cancelTokenSource.cancel();
   }, [url]);
-  const { data, isLoading, error } = fetchedData;
-  return { data, isLoading, error };
+  const { data, isLoading, error, errorMessage } = fetchedData;
+  return { data, isLoading, error, errorMessage };
 };
 
 export default useFetch;

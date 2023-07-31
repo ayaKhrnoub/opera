@@ -9,6 +9,7 @@ const EventCard = ({ party }) => {
       <div className="h-[200px] relative after:absolute after:w-full after:h-2 after:bg-primary after:top-0">
         <img
           className="w-full h-full object-cover"
+          // src={party.photo}
           src={images.intro1}
           alt=""
           loading="lazy"

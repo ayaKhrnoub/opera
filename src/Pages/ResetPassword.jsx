@@ -1,5 +1,5 @@
 import { useEffect, Fragment, useReducer } from "react";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineNumber, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { RiLockPasswordLine } from "react-icons/ri";
 import AccountInputField from "../Components/AccountInputField";
@@ -179,7 +179,7 @@ const ResetPassword = () => {
           placeholder="************"
           value={state.confirmPassword}
           onChange={handleChange}
-          isPassword={false}
+          isPassword={true}
           Icon={<RiLockPasswordLine />}
           error={state.errors.confirmPassword}
         />
@@ -207,12 +207,9 @@ const ResetPassword = () => {
               {state.isLoading ? (
                 <AiOutlineLoading3Quarters className="text-4xl text-center animate-spin" />
               ) : (
-                "login"
+                "reset"
               )}
             </button>
-          </div>
-          <div className="flex hover:text-primary -mx-3">
-            <Link to="/account/register">create new account</Link>
           </div>
         </div>
       </form>
