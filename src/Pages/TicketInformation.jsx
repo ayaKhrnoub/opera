@@ -53,7 +53,7 @@ const TicketInformation = () => {
         </div>
       </div>
       <Popup isOpen={showModal} clickOutSide={true} onClose={setShowModal}>
-        <div className="w-full flex justify-center p-4 items-center">
+        <div className="w-full flex justify-center p-4 items-center flex-col gap-4">
           <QRCode
             id="qrCode"
             size={256}
