@@ -4,12 +4,12 @@ import Section from "../Components/Section";
 import OurEvents from "../Containers/OurEvents";
 import OurNews from "../Components/OurNews";
 import ContactUs from "../Containers/ContactUs";
-
+import a from "../assets/image/welcome.png"
 const Home = () => {
   return (
     <React.Fragment>
       <Introduction />
-      <Section />
+      <Section image={a}/>
       <OurEvents />
       <OurNews />
       <ContactUs />
