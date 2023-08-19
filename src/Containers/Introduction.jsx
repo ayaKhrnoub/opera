@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "framer-motion";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const SampleNextArrow = ({ onClick }) => {
   return (
@@ -85,9 +86,9 @@ const Introduction = () => {
                   >
                     {item.text}
                   </p>
-                  <button className="bg-dark text-base md:text-2xl px-4 h-12 rounded-lg mt-4 text-white capitalize cursor-pointer transition-all hover:bg-dark/75">
+                  <Link to={item.path} className="bg-dark inline-flex justify-center items-center text-base md:text-2xl px-4 h-12 rounded-lg mt-4 text-white capitalize cursor-pointer transition-all hover:bg-dark/75">
                     {item.buttonText}
-                  </button>
+                  </Link>
                 </div>
               </motion.div>
             )}

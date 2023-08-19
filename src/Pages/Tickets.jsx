@@ -48,7 +48,7 @@ const Tickets = () => {
             >
               <span className="sr-only">seat</span>
             </button>
-            <p className="text-xl font-semibold capitalize">available</p>
+            <p className="text-lg font-semibold capitalize">available</p>
           </div>
           <div className="flex justify-center items-center gap-4">
             <button
@@ -56,7 +56,7 @@ const Tickets = () => {
             >
               <span className="sr-only">seat</span>
             </button>
-            <p className="text-xl font-semibold capitalize">sold</p>
+            <p className="text-lg font-semibold capitalize">sold</p>
           </div>
           <div className="flex justify-center items-center gap-4">
             <button
@@ -64,7 +64,7 @@ const Tickets = () => {
             >
               <span className="sr-only">seat</span>
             </button>
-            <p className="text-xl font-semibold capitalize">selected</p>
+            <p className="text-lg font-semibold capitalize">selected</p>
           </div>
         </div>
       </div>

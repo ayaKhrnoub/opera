@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { TfiClose } from "react-icons/tfi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BiUser } from "react-icons/bi";
-import { IoIosNotificationsOutline } from "react-icons/io";
 import { useAuthContext } from "../../Context/AuthContext";
 import UserLinks from "./UserLinks";
 
@@ -63,14 +62,6 @@ const AuthButtons = ({ resize, toggle, setToggle }) => {
               <span className="sr-only">user information button</span>
             </button>
             <UserLinks userInformation={userInformation} />
-          </div>
-          <div
-            className="w-10 h-10 cursor-pointer relative
-                         flex justify-center items-center rounded-full bg-[#E4E6EB]"
-          >
-            <IoIosNotificationsOutline className="text-3xl" />
-            <span className="sr-only">notifications button</span>
-            <span className="absolute w-3 h-3 rounded-full right-0 top-0 bg-[#f00] animate-ping"></span>
           </div>
           <Link
             to="/reservation"

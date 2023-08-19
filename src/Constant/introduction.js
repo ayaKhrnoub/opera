@@ -8,6 +8,7 @@ const header = [
     title: "opera",
     text: "theater entertainment & performing arts elementor",
     buttonText: "read more",
+    path: "/about-us",
     image: imgHeader1,
   },
   {
@@ -15,6 +16,7 @@ const header = [
     title: "reservation",
     text: "choose your seat",
     buttonText: "explore",
+    path: "/our-events",
     image: imgHeader2,
   },
   {
@@ -22,6 +24,7 @@ const header = [
     title: "music program",
     text: "a lot of events and workshops",
     buttonText: "get in touch",
+    path: "/contact-us",
     image: imgHeader3,
   },
 ];

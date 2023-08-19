@@ -9,7 +9,7 @@ const Home = () => {
   return (
     <React.Fragment>
       <Introduction />
-      <Section button={true} />
+      <Section />
       <OurEvents />
       <OurNews />
       <ContactUs />

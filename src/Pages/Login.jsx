@@ -75,7 +75,7 @@ const Login = () => {
         dispatch({ type: "SET_IS_LOGGED_IN", state: true });
         if (state.rememberMe)
           Cookies.set("token", response.data.data.token, {
-            expires: 30,
+            expires: 300,
             path: "/",
           });
         navigate(redirectPath, { replace: true });

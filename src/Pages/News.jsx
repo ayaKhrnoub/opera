@@ -28,6 +28,7 @@ const News = () => {
             dirLtr={index % 2 !== 0}
             image={news.image}
             text={news.text}
+            subTitle={news.sub_title}
             title={news.title}
           />
           <Line />

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { images } from "../Constant";
 import { BsFileEarmarkArrowDownFill, BsClockFill } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
 import Square from "../Components/Square";
@@ -8,6 +7,16 @@ import PropTypes from "prop-types";
 import useFetch from "../Hooks/useFetch";
 import Tippy from "@tippy.js/react";
 import "tippy.js/dist/tippy.css";
+
+function convertTimeTo12HourFormat(date) {
+  let hour = date.getHours();
+  let minute = date.getMinutes();
+  let period = hour >= 12 ? 'PM' : 'AM';
+
+  hour = hour % 12 || 12;
+
+  return hour + ':' + (minute < 10 ? '0' + minute : minute) + ' ' + period;
+}
 
 const Item = ({ title, text }) => {
   return (
@@ -18,16 +27,26 @@ const Item = ({ title, text }) => {
   );
 };
 Item.propTypes = {
-  title: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  text: PropTypes.string,
 };
 
 const EventDetail = () => {
   const { pathname } = useLocation();
   const { eventId } = useParams();
   const { data, isLoading, error } = useFetch(`/api/party/show/${eventId}`);
-  console.log(data)
   const [party, setParty] = useState([]);
+
+  const handleDownload = (url) => {
+    const imageUrl = url;
+    const link = document.createElement("a");
+    link.href = imageUrl;
+    link.setAttribute("download", `name`);
+    link.setAttribute("target", `_blank`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   useEffect(() => {
     if (!isLoading && !error) {
@@ -47,9 +66,8 @@ const EventDetail = () => {
           <div className="block w-full md:w-1/2">
             <img
               className="w-full h-full object-cover"
-              src={images.intro1}
+              src={party.photo}
               alt=""
-              loading="lazy"
             />
           </div>
           <div
@@ -90,14 +108,16 @@ const EventDetail = () => {
                   }
                 >
                   <span>
-                    <BsFileEarmarkArrowDownFill className="cursor-pointer" />
+                    <button onClick={() => handleDownload(party.program)}>
+                      <BsFileEarmarkArrowDownFill className="cursor-pointer" />
+                    </button>
                   </span>
                 </Tippy>
                 <Tippy
                   delay={300}
                   content={
                     <span className="text-lg block text-center">
-                      {party.date?.slice(10, 16)}
+                      {convertTimeTo12HourFormat(new Date(party.date))}
                     </span>
                   }
                 >

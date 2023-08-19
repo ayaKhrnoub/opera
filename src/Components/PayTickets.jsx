@@ -5,53 +5,51 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 import OTPInput from "./OTPInput";
 import { useAuthContext } from "../Context/AuthContext";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import axios from "axios";
 import baseURL from "../Constant/URL";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const PayTickets = ({ userBooked, setShowModal, ticketPrice }) => {
   const [modalContent, setModalContent] = useState(0);
   const [Otp, setOtp] = useState("");
   const { eventId } = useParams();
   const { token } = useAuthContext();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const addParties = () => {
-    // await axios.post(
-    //   `${baseURL}/api/party/book-place`,
-    //   {
-    //     number: userBooked[0],
-    //     party_id: eventId,
-    //   },
-    //   {
-    //     headers: { Authorization: `Bearer ${token}` },
-    //   }
-    // );
-    const requests = userBooked.map((id) =>
-      axios.post(
-        `${baseURL}/api/party/book-place`,
-        {
-          number: id,
-          party_id: eventId,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-    );
-
-    Promise.all(requests)
-      .then((responses) => {
-        // معالجة البيانات المستردة
-        responses.forEach((response) => {
-          console.log(response.data);
-        });
-      })
-      .catch((error) => {
-        // معالجة الأخطاء
-        console.error(error);
+  const addParties = async () => {
+    try {
+      setIsLoading(true);
+      for (let i = 0; i < userBooked.length; i++) {
+        const id = userBooked[i];
+        await axios.post(
+          `${baseURL}/api/party/book-place`,
+          {
+            number: id,
+            party_id: eventId,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+      }
+      toast("done", {
+        position: "bottom-left",
+        autoClose: 2000,
+        pauseOnFocusLoss: false,
+        pauseOnHover: false,
+        draggable: true,
+        type: "success",
+        theme: "colored",
       });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+      setShowModal(false);
+    }
   };
-
   useEffect(() => {
     setModalContent(0);
   }, []);
@@ -98,10 +96,15 @@ const PayTickets = ({ userBooked, setShowModal, ticketPrice }) => {
           cancel
         </button>
         <button
-          onClick={() => setModalContent(1)}
-          className="uppercase h-10 w-24 text-xl sm:text-2xl text-white rounded-lg bg-purple"
+          disabled={isLoading}
+          onClick={addParties}
+          className="uppercase h-10 w-24 text-xl sm:text-2xl flex justify-center items-center text-white rounded-lg bg-purple"
         >
-          pay
+          {isLoading ? (
+            <AiOutlineLoading3Quarters className="animate-spin" />
+          ) : (
+            "pay"
+          )}
         </button>
       </div>
     </Fragment>

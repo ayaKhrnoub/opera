@@ -2,7 +2,7 @@ import Button from "./Button";
 import PropTypes from "prop-types";
 import { images } from "../Constant";
 
-const Section = ({ button, dirLtr, image, title, text }) => {
+const Section = ({ button, dirLtr, image, title, text, subTitle }) => {
   return (
     <section
       className={`${
@@ -20,8 +20,7 @@ const Section = ({ button, dirLtr, image, title, text }) => {
         >
           <img
             className="w-full object-cover relative z-20"
-            // src={image}
-            src={images.welcome}
+            src={image}
             alt={title}
             width="100%"
             height="100%"
@@ -36,7 +35,7 @@ const Section = ({ button, dirLtr, image, title, text }) => {
             {title ? title : "title"}
           </h2>
           <p className="pl-8 w-full md:w-4/5 font-bold text-base md:text-2xl">
-            theater entertainment & performing arts elementor
+            {subTitle}
           </p>
         </div>
         {text ? (
@@ -70,6 +69,7 @@ Section.propTypes = {
   title: PropTypes.string,
   image: PropTypes.string,
   text: PropTypes.string,
+  subTitle: PropTypes.string,
 };
 
 export default Section;

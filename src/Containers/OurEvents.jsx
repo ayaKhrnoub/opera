@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import EventCardLoading from "../Components/EventCardLoading";
 const OurEvents = () => {
-  const { data, isLoading, error } = useFetch("/api/party/opened?page=1");
+  const { data, isLoading, error } = useFetch("/api/party/opened?page=1&count=8");
   const [partyList, setPartyList] = useState([]);
   useEffect(() => {
     if (!isLoading && !error) {

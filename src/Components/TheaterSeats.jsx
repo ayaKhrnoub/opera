@@ -1,10 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import useFetch from "../Hooks/useFetch";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../Context/AuthContext";
 import Popup from "./Popup";
 import PayTickets from "./PayTickets";
+import soldOut from "../assets/image/sold.png";
 import RequiredAuth from "./RequiredAuth";
 
 // A utility function that splits an array into smaller arrays of specified lengths
@@ -27,6 +28,7 @@ function splitArray(array, lengths) {
 
 const TheaterSeats = ({ userSeats, isLoggedIn }) => {
   const { eventId } = useParams();
+  const navigate = useNavigate();
   const [seats, setSeats] = useState([]);
   const { user } = useAuthContext();
   const [showModal, setShowModal] = useState(false);
@@ -34,7 +36,10 @@ const TheaterSeats = ({ userSeats, isLoggedIn }) => {
   const [select, setSelect] = useState([]);
   const [userBooked, setUserBooked] = useState([]);
   const [requiredAuthModal, setRequiredAuthModal] = useState(false);
-  const { data, isLoading, error } = useFetch(`/api/party/show/${eventId}`);
+  const [isSold, setIsSold] = useState(false);
+  const { data, isLoading, error, errorMessage } = useFetch(
+    `/api/party/show/${eventId}`
+  );
 
   useEffect(() => {
     if (Object.keys(user).length !== 0) {
@@ -59,11 +64,21 @@ const TheaterSeats = ({ userSeats, isLoggedIn }) => {
       if (!error) {
         setSeats(splitArray(JSON.parse(data.seats), [22, 26, 30]));
       } else {
-        console.log("navigate to 404");
+        console.log(errorMessage);
+        if (errorMessage?.response) {
+          console.log(errorMessage?.response?.status);
+          if (errorMessage?.response?.status === 404) navigate("/not-found");
+          else if (errorMessage?.response?.status === 401) navigate("/");
+          else if (errorMessage?.response?.status === 400) setIsSold(true);
+        }
       }
     }
-  }, [data, isLoading, error]);
-  return (
+  }, [data, isLoading, error, errorMessage, navigate]);
+  return isSold ? (
+    <div className="w-2/5 mx-auto">
+      <img className="w-full object-contain" src={soldOut} />
+    </div>
+  ) : (
     <Fragment>
       <div className="w-[95%] px-12 overflow-x-auto mx-auto">
         <div className="min-w-[750px] sm:w-full mx-auto">
@@ -73,7 +88,7 @@ const TheaterSeats = ({ userSeats, isLoggedIn }) => {
           />
           <div
             className="w-[88.5%] -translate-y-10 mx-auto h-20 relative bg-gradient-to-t
-                 to-primary/30 from-transparent"
+               to-primary/30 from-transparent"
           />
           {seats.map((i, index) => (
             <div
