@@ -84,7 +84,7 @@ const Archives = () => {
     <main className="mt-16">
       <PageHeader img={images.aboutHeader} text="Damascus Opera Archives" />
       <div className="w-[90%] mx-auto bg-[#CAD2D3] my-4 rounded-xl shadow-lg">
-        <div className="w-[95%] mx-auto pb-4 flex flex-wrap gap-4 justify-center items-center">
+        <div className="w-[95%] mx-auto pb-4 pt-8 flex flex-wrap gap-4 justify-center items-center">
           {isLoading && page === 1
             ? Array(itemsPerPage * page)
                 .fill(0)
