@@ -56,7 +56,7 @@ const PersistLogin = () => {
     return () => {
       isMounted = false;
     };
-  }, [dispatch, loggedIn, navigate]);
+  }, [dispatch, loggedIn, navigate, token]);
   return loading ? <Loading /> : <Outlet />;
 };
 

@@ -2,14 +2,11 @@ import { Link } from "react-router-dom";
 import React from "react";
 import PageHeader from "../Components/PageHeader";
 import { images } from "../Constant";
-import { BiSearch } from "react-icons/bi";
 import { motion } from "framer-motion";
 import useFetch from "../Hooks/useFetch";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
-import baseURL from "../Constant/URL";
 
 const buttonVariant = {
   hover: {
@@ -66,7 +63,6 @@ const Archives = () => {
   const saveScrollPosition = () => {
     window.sessionStorage.setItem("scrollPosition", window.pageYOffset);
   };
-  const [input, setInput] = useState("");
 
   useEffect(() => {
     if (!isLoading && !error) {
@@ -84,33 +80,10 @@ const Archives = () => {
       sessionStorage.removeItem("scrollPosition");
     }
   }, [folderList]);
-
-  const search = async (e) => {
-    e.preventDefault();
-    console.log("first");
-    try {
-      const response = await axios.get(`${baseURL}/api/party/search?name=${input}`);
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   return (
     <main className="mt-16">
       <PageHeader img={images.aboutHeader} text="Damascus Opera Archives" />
       <div className="w-[90%] mx-auto bg-[#CAD2D3] my-4 rounded-xl shadow-lg">
-        <form onSubmit={search} className="flex py-4 w-6/12 mx-auto px-3 my-4">
-          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-            <BiSearch className="text-2xl" />
-          </div>
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            type="text"
-            className="w-full bg-[#FEF5F5] -ml-10 pl-10 pr-3 py-2 rounded-xl border-none outline-none  focus:ring-primary focus:ring-2"
-            placeholder="Search"
-          />
-        </form>
         <div className="w-[95%] mx-auto pb-4 flex flex-wrap gap-4 justify-center items-center">
           {isLoading && page === 1
             ? Array(itemsPerPage * page)
