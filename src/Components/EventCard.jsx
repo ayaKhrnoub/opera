@@ -9,18 +9,20 @@ const EventCard = ({ party }) => {
         <img
           className="w-full h-full object-cover"
           src={party.photo}
-          // src={images.intro1}
           alt={party.name}
           loading="lazy"
         />
       </div>
       <div className="flex justify-between mx-4 pt-2 items-center">
-        <h2 className="capitalize text-2xl font-bold">{party.name}</h2>
+        <h2 className="capitalize text-lg font-bold">{party.name}</h2>
         <p className="text-lg">
           {party.date?.slice(0, 10)?.split("-")?.join("/")}
         </p>
       </div>
-      <p className="mx-4 text-sm font-medium">
+      <p
+        title={`The ${party.team_name} ensemble is performing at ${party.theater_name}`}
+        className="mx-4 text-sm group-hover:line-clamp-1 font-medium"
+      >
         The {party.team_name} ensemble is performing at {party.theater_name}
       </p>
       <Link

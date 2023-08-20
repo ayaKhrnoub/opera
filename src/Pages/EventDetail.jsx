@@ -65,7 +65,7 @@ const EventDetail = () => {
         <div className="flex flex-col md:flex-row w-full">
           <div className="block w-full md:w-1/2">
             <img
-              className="w-full h-full object-cover"
+              className="w-full h-[600px] object-cover"
               src={party.photo}
               alt=""
             />
